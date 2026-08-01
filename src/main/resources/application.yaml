@@ -1,3 +1,9 @@
 spring:
   application:
     name: SpringAiDemo2
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY} # 从环境变量当中读取密钥
+      base-url: https://coding.dashscope.aliyuncs.com/v1
+      chat:
+        model: qwen3.7-plus
