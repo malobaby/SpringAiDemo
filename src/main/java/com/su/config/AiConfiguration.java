@@ -57,4 +57,26 @@ public class AiConfiguration {
                 .build();
     }
 
+
+    /**
+     * 创建一个 ChatClient 对象，用于与 OpenAI 的 API 进行交互。
+     * 并添加【内置】的 Advisor，用于记录请求和响应信息。
+     * 添加系统提示词，用于定制化问答。
+     */
+    @Bean
+    public ChatClient javaExpertChatClient(OpenAiChatModel model) {
+        String systemPrompt = """
+            你是一个资深的 Java 技术顾问。
+            禁止回答任何非技术类问题，例如天气或娱乐八卦。
+            代码示例必须符合 Java 17+ 规范。
+            回答需要符合以下格式：首先一句话概括问题的核心，然后提供代码示例，最后补充注意事项。
+            如果自己不确定，可以说"关于这个问题，我目前没有确切的信息"，禁止编造内容。
+            """;
+        return ChatClient
+                .builder(model)
+                .defaultSystem(systemPrompt) // 设置系统提示词
+                .defaultAdvisors(new SimpleLoggerAdvisor()) // 设置一个日志Advisor，方便观察请求和响应信息
+                .build();
+    }
+
 }
