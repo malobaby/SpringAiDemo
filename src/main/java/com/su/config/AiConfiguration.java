@@ -1,6 +1,7 @@
 package com.su.config;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,17 @@ public class AiConfiguration {
      */
     @Bean
     public ChatClient chatClient(OpenAiChatModel model) {
+        return ChatClient
+                .builder(model)
+                .build();
+    }
+
+    /**
+     * 创建一个 ChatClient 对象，用于与 Ollama 的 API 进行交互。
+     * 注：OllamaChatModel是由框架提供的，来源于{@link org.springframework.ai.model.ollama.autoconfigure.OllamaChatAutoConfiguration}
+     */
+    @Bean
+    public ChatClient ollamaChatClient(OllamaChatModel model) {
         return ChatClient
                 .builder(model)
                 .build();

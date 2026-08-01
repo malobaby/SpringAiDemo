@@ -7,3 +7,7 @@ spring:
       base-url: https://coding.dashscope.aliyuncs.com/v1
       chat:
         model: qwen3.7-plus
+    ollama:
+      base-url: http://192.168.31.156:11434
+      chat:
+        model: qwen3.5:4b
