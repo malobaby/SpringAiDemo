@@ -11,3 +11,6 @@ spring:
       base-url: http://192.168.31.156:11434
       chat:
         model: qwen3.5:4b
+logging:
+  level:
+    org.springframework.ai: DEBUG # 若要使得配置的内置Advisor在控制台能打印日志，则需要将此级别设置为DEBUG
