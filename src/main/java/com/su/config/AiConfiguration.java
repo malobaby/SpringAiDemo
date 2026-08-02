@@ -2,7 +2,11 @@ package com.su.config;
 
 import com.su.advisor.MySimpleLoggerAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.context.annotation.Bean;
@@ -78,5 +82,26 @@ public class AiConfiguration {
                 .defaultAdvisors(new SimpleLoggerAdvisor()) // 设置一个日志Advisor，方便观察请求和响应信息
                 .build();
     }
+
+    @Bean
+    public ChatMemory chatMemory() {
+        return MessageWindowChatMemory.builder()
+                .maxMessages(10)    // 最多保存10条消息
+                .chatMemoryRepository(new InMemoryChatMemoryRepository())   // 使用内存存储
+                .build()
+                ;
+    }
+
+    @Bean
+    public ChatClient chatClientWithMemory(OpenAiChatModel model, ChatMemory chatMemory) {
+        return ChatClient
+                .builder(model)
+                .defaultAdvisors(
+                        new MySimpleLoggerAdvisor(),  //  设置一个日志Advisor，方便观察请求和响应信息
+                        MessageChatMemoryAdvisor.builder(chatMemory).build()    // 设置一个MemoryAdvisor，用于记录请求和响应信息
+                )
+                .build();
+    }
+
 
 }
