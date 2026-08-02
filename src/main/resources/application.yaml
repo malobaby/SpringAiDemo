@@ -3,10 +3,15 @@ spring:
     name: SpringAiDemo2
   ai:
     openai:
-      api-key: ${OPENAI_API_KEY} # 从环境变量当中读取密钥
       base-url: https://coding.dashscope.aliyuncs.com/v1
+      api-key: ${OPENAI_API_KEY} # 从环境变量当中读取密钥
       chat:
         model: qwen3.7-plus
+      embedding:
+        base-url: https://ws-3t4q1r2yrmxjtjs2.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+        api-key: ${OPENAI_EMBED_API_KEY}
+        model: text-embedding-v4 # 嵌入模型的名称
+        dimensions: 2048  # 向量维度
     ollama:
       base-url: http://192.168.31.156:11434
       chat:
